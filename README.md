@@ -1,4 +1,4 @@
-# Nginx PHP 7.1 MySQL and PHPMyAdmin (LEMP)
+# Nginx PHP 7.x/8.x MySQL and PHPMyAdmin (LEMP)
 
 Docker running Nginx, PHP-FPM, Composer, MySQL and PHPMyAdmin.
 
@@ -78,9 +78,10 @@ This project use the following ports :
 | Server     | Port |
 |------------|------|
 | MySQL      | 8989 |
-| PHPMyAdmin | 8080 |
+| PHPMyAdmin | 8091 |
 | Nginx      | 8000 |
 | Nginx SSL  | 3001 |
+| redis      | 6379 |
 
 ---
 
@@ -107,6 +108,8 @@ cd docker-lemp-php7-phpmyadmin
 │   └── db
 │       ├── dumps
 │       └── mysql
+│   └── redis
+│       └── redis.conf
 ├── docker-compose.yml
 ├── etc
 │   ├── nginx
@@ -115,6 +118,7 @@ cd docker-lemp-php7-phpmyadmin
 │   │   └── php.ini
 │   └── ssl
 └── web
+    └── app
     └── public
         └── index.php
 ```
@@ -199,6 +203,17 @@ If you use another IDE than PHPStorm or Netbeans, go to the [remote debugging](h
 ```sh
 sudo docker-compose exec php php -m
 ```
+
+### Install additional PHP extensions
+
+Currently we have a way to install php extensions:
+
+```sh
+sudo docker-compose exec php curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o - | sh -s gd xdebug
+```
+Note: `gd` and `xdebug` is an example which additional extensions will be installed.
+
+After successfully install additional extension, you have to restart php service container. For more information, please refer to this [good source](https://github.com/mlocati/docker-php-extension-installer/tree/master).
 
 ### Handling database
 
